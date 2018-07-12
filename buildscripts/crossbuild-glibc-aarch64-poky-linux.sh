@@ -4,7 +4,8 @@ if [ -z "$JOBS" ]; then
   JOBS=$(nproc)
 fi
 
-WS="$PWD/../.."
+SCRIPT_PATH="$(cd "$(dirname "$0")" ; pwd -P)"
+WS="$SCRIPT_PATH/../.."
 BUILD="$WS/build-arch64-poky-linux"
 SYSROOT="$BUILD/sysroot"
 SRC="$WS/glibc"
