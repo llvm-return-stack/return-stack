@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$JOBS" ]; then
-  JOBS=4
+  JOBS=$(nproc)
 fi
 
 WS="$PWD/../.."
