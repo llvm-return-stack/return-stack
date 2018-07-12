@@ -1,6 +1,7 @@
 #!/bin/bash
 
-WS="$PWD/../.."
+SCRIPT_PATH="$(cd "$(dirname "$0")" ; pwd -P)"
+WS="$SCRIPT_PATH/../.."
 SYSROOT="$WS/build-x86_64-linux-gnu/sysroot"
 TEST="$WS/test"
 
