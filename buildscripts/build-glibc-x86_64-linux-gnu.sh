@@ -14,7 +14,6 @@ BUILD="$WS/build-x86_64-linux-gnu"
 SYSROOT="$BUILD/sysroot"
 SRC="$WS/glibc"
 OUT="$BUILD/glibc"
-INSTALL="$OUT/install"
 
 silent mkdir -p "$BUILD"
 silent mkdir -p "$SYSROOT"
@@ -31,9 +30,5 @@ export libc_cv_rtlddir="/lib/x86_64-linux-gnu"
   --prefix=/usr \
   --libdir=/usr/lib/x86_64-linux-gnu
 
-make -j$JOBS && make install DESTDIR="$INSTALL"
-
-if [ -d "$INSTALL" ]; then
-  cp -r "$INSTALL/"* "$SYSROOT"
-fi
+make -j$JOBS && make install DESTDIR="$SYSROOT"
 

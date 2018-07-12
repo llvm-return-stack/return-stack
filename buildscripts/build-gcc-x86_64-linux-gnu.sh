@@ -14,7 +14,6 @@ BUILD="$WS/build-x86_64-linux-gnu"
 SYSROOT="$BUILD/sysroot"
 SRC="$WS/gcc"
 OUT="$BUILD/gcc"
-INSTALL="$OUT/install"
 
 silent mkdir -p "$BUILD"
 silent mkdir -p "$SYSROOT"
@@ -27,11 +26,7 @@ export CFLAGS="-O2 -ffixed-r15"
 export CXXFLAGS="${CFLAGS}"
 "$SRC/configure" \
   --enable-languages=c,c++ \
-  --prefix="$INSTALL"
+  --prefix="$SYSROOT"
 
 make -j$JOBS && make install
-
-if [ -d "$INSTALL" ]; then
-  cp -r "$INSTALL/"* "$SYSROOT"
-fi
 

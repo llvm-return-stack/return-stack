@@ -14,7 +14,6 @@ BUILD="$WS/build-arch64-poky-linux"
 SYSROOT="$BUILD/sysroot"
 SRC="$WS/glibc"
 OUT="$BUILD/glibc"
-INSTALL="$OUT/install"
 
 silent mkdir -p "$BUILD"
 silent mkdir -p "$SYSROOT"
@@ -32,9 +31,5 @@ export libc_cv_rtlddir="/lib"
   --libdir=/usr/lib \
   --host=aarch64-linux-gnu
 
-make -j$JOBS && make install DESTDIR="$INSTALL"
-
-if [ -d "$INSTALL" ]; then
-  cp -r "$INSTALL/"* "$SYSROOT"
-fi
+make -j$JOBS && make install DESTDIR="$SYSROOT"
 
