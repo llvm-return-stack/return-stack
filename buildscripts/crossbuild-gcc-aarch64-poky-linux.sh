@@ -10,6 +10,7 @@ BUILD="$WS/build-arch64-poky-linux"
 SYSROOT="$BUILD/sysroot"
 SRC="$WS/gcc"
 OUT="$BUILD/gcc"
+INSTALL="$OUT/install"
 
 mkdir "$BUILD" &> /dev/null
 mkdir "$SYSROOT" &> /dev/null
@@ -24,11 +25,11 @@ export CXXFLAGS="${CFLAGS}"
   --enable-languages=c,c++ \
   --host=aarch64-linux-gnu \
   --target=aarch64-linux-gnu \
-  --prefix="$OUT/install"
+  --prefix="$INSTALL"
 
 make -j$JOBS && make install
 
-if [ -d "install" ]; then
-  cp -r "install/"* "$SYSROOT"
+if [ -d "$INSTALL" ]; then
+  cp -r "$INSTALL/"* "$SYSROOT"
 fi
 

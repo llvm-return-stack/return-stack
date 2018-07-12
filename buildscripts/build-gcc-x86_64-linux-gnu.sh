@@ -10,6 +10,7 @@ BUILD="$WS/build-x86_64-linux-gnu"
 SYSROOT="$BUILD/sysroot"
 SRC="$WS/gcc"
 OUT="$BUILD/gcc"
+INSTALL="$OUT/install"
 
 mkdir "$BUILD" &> /dev/null
 mkdir "$SYSROOT" &> /dev/null
@@ -22,11 +23,11 @@ export CFLAGS="-O2 -ffixed-r15"
 export CXXFLAGS="${CFLAGS}"
 "$SRC/configure" \
   --enable-languages=c,c++ \
-  --prefix="$OUT/install"
+  --prefix="$INSTALL"
 
 make -j$JOBS && make install
 
-if [ -d "install" ]; then
-  cp -r "install/"* "$SYSROOT"
+if [ -d "$INSTALL" ]; then
+  cp -r "$INSTALL/"* "$SYSROOT"
 fi
 

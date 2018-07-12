@@ -10,6 +10,7 @@ BUILD="$WS/build-arch64-poky-linux"
 SYSROOT="$BUILD/sysroot"
 SRC="$WS/llvm"
 OUT="$BUILD/llvm"
+INSTALL="$OUT/install"
 
 mkdir "$BUILD" &> /dev/null
 mkdir "$SYSROOT" &> /dev/null
@@ -26,7 +27,7 @@ cmake -G Ninja "$SRC" \
   -DCMAKE_CROSSCOMPILING=True \
   -DCMAKE_CXX_COMPILER=/usr/bin/aarch64-linux-gnu-g++ \
   -DCMAKE_CXX_FLAGS="$FLAGS" \
-  -DCMAKE_INSTALL_PREFIX="$OUT/install" \
+  -DCMAKE_INSTALL_PREFIX="$INSTALL" \
   -DLLVM_DEFAULT_TARGET_TRIPLE=aarch64-poky-linux \
   -DLLVM_ENABLE_TERMINFO=False \
   -DLLVM_TARGET_ARCH=AArch64 \
@@ -34,7 +35,7 @@ cmake -G Ninja "$SRC" \
 
 ninja -j$JOBS && ninja install
 
-if [ -d "install" ]; then
-  cp -r "install/"* "$SYSROOT"
+if [ -d "$INSTALL" ]; then
+  cp -r "$INSTALL/"* "$SYSROOT"
 fi
 
