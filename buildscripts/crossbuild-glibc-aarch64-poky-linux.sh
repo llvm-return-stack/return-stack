@@ -1,5 +1,9 @@
 #!/bin/bash
 
+silent() {
+  "$@" &>/dev/null
+}
+
 if [ -z "$JOBS" ]; then
   JOBS=$(nproc)
 fi
@@ -12,11 +16,11 @@ SRC="$WS/glibc"
 OUT="$BUILD/glibc"
 INSTALL="$OUT/install"
 
-mkdir "$BUILD" &> /dev/null
-mkdir "$SYSROOT" &> /dev/null
+silent mkdir -p "$BUILD"
+silent mkdir -p "$SYSROOT"
 
-rm -rf "$OUT" &> /dev/null
-mkdir "$OUT"
+silent rm -rf "$OUT"
+silent mkdir -p "$OUT"
 cd "$OUT"
 
 export CFLAGS="-O2 -Wno-error -ffixed-x28"
