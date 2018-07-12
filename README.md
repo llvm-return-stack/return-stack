@@ -10,6 +10,8 @@ details see the ASIA CCS '18 paper:
 > Republic of Korea*. ACM, New York, NY, USA, 12 pages.
 > https://doi.org/10.1145/3196494.3196531
 
+The paper is also available on [arxiv.org](https://arxiv.org/abs/1806.09496).
+
 Note that these repositories present a **prototype** implementation for return
 stack support on Linux and should **not** be used in a productive environment.
 
