@@ -26,6 +26,7 @@ if [ $? -eq 0 ]; then
   export CFLAGS="-O2 -ffixed-r15"
   export CXXFLAGS="${CFLAGS}"
   "$SRC/configure" \
+    --disable-multilib \
     --enable-languages=c,c++ \
     --prefix="$SYSROOT"
 fi
