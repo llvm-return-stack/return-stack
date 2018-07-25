@@ -10,7 +10,7 @@ fi
 
 SCRIPT_PATH="$(cd "$(dirname "$0")" ; pwd -P)"
 WS="$SCRIPT_PATH/../.."
-BUILD="$WS/build-arch64-poky-linux"
+BUILD="$WS/build-raspberry_pi3-aarch64-poky-linux"
 SYSROOT="$BUILD/sysroot"
 SRC="$WS/llvm"
 OUT="$BUILD/llvm"
