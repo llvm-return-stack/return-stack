@@ -22,11 +22,13 @@ silent rm -rf "$OUT"
 silent mkdir -p "$OUT"
 cd "$OUT"
 
-export CFLAGS="-O2 -ffixed-r15"
-export CXXFLAGS="${CFLAGS}"
-"$SRC/configure" \
-  --enable-languages=c,c++ \
-  --prefix="$SYSROOT"
+if [ $? -eq 0 ]; then
+  export CFLAGS="-O2 -ffixed-r15"
+  export CXXFLAGS="${CFLAGS}"
+  "$SRC/configure" \
+    --enable-languages=c,c++ \
+    --prefix="$SYSROOT"
+fi
 
-make -j$JOBS && make install
+[ $? -eq 0 ] && make -j$JOBS && make install
 

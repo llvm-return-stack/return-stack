@@ -22,13 +22,15 @@ silent rm -rf "$OUT"
 silent mkdir -p "$OUT"
 cd "$OUT"
 
-export CFLAGS="-O2 -Wno-error -ffixed-r15"
-export CXXFLAGS="${CFLAGS}"
-export libc_cv_slibdir="/lib/x86_64-linux-gnu"
-export libc_cv_rtlddir="/lib/x86_64-linux-gnu"
-"$SRC/configure" \
-  --prefix=/usr \
-  --libdir=/usr/lib/x86_64-linux-gnu
+if [ $? -eq 0 ]; then
+  export CFLAGS="-O2 -Wno-error -ffixed-r15"
+  export CXXFLAGS="${CFLAGS}"
+  export libc_cv_slibdir="/lib/x86_64-linux-gnu"
+  export libc_cv_rtlddir="/lib/x86_64-linux-gnu"
+  "$SRC/configure" \
+    --prefix=/usr \
+    --libdir=/usr/lib/x86_64-linux-gnu
+fi
 
-make -j$JOBS && make install DESTDIR="$SYSROOT"
+[ $? -eq 0 ] && make -j$JOBS && make install DESTDIR="$SYSROOT"
 

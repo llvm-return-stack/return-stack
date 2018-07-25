@@ -22,10 +22,10 @@ silent rm -rf "$OUT"
 silent mkdir -p "$OUT"
 cd "$OUT"
 
-cmake -G Ninja "$SRC" \
+[ $? -eq 0 ] && cmake -G Ninja "$SRC" \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_INSTALL_PREFIX="$SYSROOT" \
   -DLLVM_TARGETS_TO_BUILD='X86'
 
-ninja -j$JOBS && ninja install
+[ $? -eq 0 ] && ninja -j$JOBS && ninja install
 

@@ -23,7 +23,7 @@ silent mkdir -p "$OUT"
 cd "$OUT"
 
 FLAGS="-march=armv8-a -mcpu=cortex-a53 -mlittle-endian -mabi=lp64"
-cmake -G Ninja "$SRC" \
+[ $? -eq 0 ] && cmake -G Ninja "$SRC" \
   -DCMAKE_BUILD_TYPE=Release \
   -DCMAKE_C_COMPILER=/usr/bin/aarch64-linux-gnu-gcc \
   -DCMAKE_C_FLAGS="$FLAGS" \
@@ -36,5 +36,5 @@ cmake -G Ninja "$SRC" \
   -DLLVM_TARGET_ARCH=AArch64 \
   -DLLVM_TARGETS_TO_BUILD=AArch64
 
-ninja -j$JOBS && ninja install
+[ $? -eq 0 ] && ninja -j$JOBS && ninja install
 

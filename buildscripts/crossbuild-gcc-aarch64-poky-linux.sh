@@ -22,13 +22,15 @@ silent rm -rf "$OUT"
 silent mkdir -p "$OUT"
 cd "$OUT"
 
-export CFLAGS="-O2 -ffixed-x28"
-export CXXFLAGS="${CFLAGS}"
-"$SRC/configure" \
-  --enable-languages=c,c++ \
-  --host=aarch64-linux-gnu \
-  --target=aarch64-linux-gnu \
-  --prefix="$SYSROOT"
+if [ $? -eq 0 ]; then
+  export CFLAGS="-O2 -ffixed-x28"
+  export CXXFLAGS="${CFLAGS}"
+  "$SRC/configure" \
+    --enable-languages=c,c++ \
+    --host=aarch64-linux-gnu \
+    --target=aarch64-linux-gnu \
+    --prefix="$SYSROOT"
+fi
 
-make -j$JOBS && make install
+[ $? -eq 0 ] && make -j$JOBS && make install
 
