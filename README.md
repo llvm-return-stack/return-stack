@@ -297,7 +297,7 @@ still compatible with legacy programs that do not support return stacks.
 ## Security
 
 See Section 5 of our [ASIA CCS '18
-paper](https://doi.org/10.1145/3196494.3196531).
+paper](#return-stack-support-for-linux-elf-executables).
 
 ## Performance
 
