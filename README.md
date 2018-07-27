@@ -95,12 +95,36 @@ To compile and execute return stack-enabled executables, a modified version of
 the LLVM compiler framework, the GNU C library, and the GCC runtime library are
 required.
 
+#### Requirements
+
+Building LLVM and the runtime libraries requires several software packages to
+be installed. Those packages are listed in the table below.
+
+| Package       | Version    | Note |
+|---------------|------------|------|
+| binutils      | &nbsp;     | Binary utilities |
+| Bison         | &nbsp;     | Parser generator |
+| CMake         | >= 3.4.3   | Build process manager (used for building LLVM) |
+| Flex          | >= 2.5.4   | Lexical analyzer generator |
+| GCC/G++       | &nbsp;     | GNU C/C++ compiler |
+| gawk          | &nbsp;     | Pattern scanning and processing language |
+| gettext       | >= 0.14.5  | Internationalization and localization tool |
+| Git           | &nbsp;     | Version control system |
+| glibc         | >= 2.25    | GNU C library **and** headers |
+| GMP library   | >= 4.3.2   | GNU multiple precision library |
+| Make          | >= 3.80    | Build processor |
+| MPC library   | >= 0.8.1   | Multiple precision complex floating-point library |
+| MPFR library  | >= 2.4.2   | Multiple precision floating-point reliably library |
+| Ninja         | &nbsp;     | Build processor (used for building LLVM) |
+| Python        | >= 2.7.6   | Python programming language interpreter |
+| zlib          | >= 1.2.3.4 | Compression library and headers |
+
 #### Building and Testing Using Provided Scripts
 
 1. Checkout the meta and test suite repositories:  
-      `cd <workspace>`  
-      `git clone https://github.com/llvm-return-stack/return-stack.git`  
-      `git clone https://github.com/llvm-return-stack/test.git`
+   `cd <workspace>`  
+   `git clone https://github.com/llvm-return-stack/return-stack.git`  
+   `git clone https://github.com/llvm-return-stack/test.git`
 2. Checkout the LLVM compiler framework:  
    1. Checkout LLVM:  
       `cd <workspace>`  
@@ -126,8 +150,8 @@ required.
    `cd <workspace>/return-stack/testscripts`  
    `./run-x86_64-linux-gnu.sh`
 
-**Note:** Be sure to build the same version of the GNU C library as running on
-your system. Otherwise the tests may fail due to runtime errors.
+**Note** that it is recommended to build the same version of the GNU C library
+as running on your system. Otherwise the tests may fail due to runtime errors.
 
 #### Building Manually
 
@@ -172,6 +196,12 @@ your system. Otherwise the tests may fail due to runtime errors.
 
 ### Building and Executing Protected Binaries
 
+**Note** that executing return-stack enabled programs requires a Linux kernel
+version of 3.17 or later. This is because the return stack runtime (which is
+part of LLVM’s Compiler-RT) depends on the glibc wrapper `getrandom()`. The
+runtime can be made compatible with older kernels by removing this dependency
+(at getting random bits another way).
+
 To build return stack-enabled executables and libraries, simply use the
 previously built Clang with the compiler option `-fsanitize=return-stack`.
 
@@ -210,7 +240,7 @@ test suite is written to support all options.
 #### Native Execution
 
 To execute return stack-enabled programs on a native Linux system, it is
-easiest to install the GNU C libraries and GCC into a `sysroot` directory and
+easiest to install the GNU C library and GCC into a `sysroot` directory and
 provide this directory during compilation and at runtime.
 
 Programs that utilize setjmp/longjmp functionalities (e.g., `setjmp.c` from the
@@ -326,7 +356,7 @@ Linux kernel.
   * Threads: 1
   * NUMA nodes: 1
 
-|                     | Baseline | Return Stack |
+| &nbsp;              | Baseline | Return Stack |
 |---------------------|:--------:|:------------:|
 | **500.perlbench_r** |    570 s |        4.21% |
 | **502.gcc_r**       |    411 s |        5.60% |
@@ -339,17 +369,17 @@ Linux kernel.
 | **557.xz_r**        |    562 s |        0.89% |
 | **Apache**          | 130.70 s |        0.11% |
 | **Nginx**           | 178.54 s |        0.15% |
-| **Mean**            |          |    **2.72%** |
+| **Mean**            | &nbsp;   |    **2.72%** |
 
 ### ARM64
 
 On ARM64, all evaluations were carried out on a Raspberry Pi 3 clocked at a
 static 600 MHz and running a Yocto Poky Linux distribution.
 
-|              | Baseline | Return Stack |
+| &nbsp;       | Baseline | Return Stack |
 |--------------|:--------:|:------------:|
 | **Coremark** |  16.43 s |       -0.43% |
 | **Apache**   | 196.36 s |        0.85% |
 | **Nginx**    | 215.98 s |       -0.50% |
-| **Mean**     |          |   **-0.03%** |
+| **Mean**     | &nbsp;   |   **-0.03%** |
 
