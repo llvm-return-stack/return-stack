@@ -13,14 +13,29 @@ WS="$SCRIPT_PATH/../.."
 BUILD="$WS/build-raspberry_pi3-aarch64-poky-linux"
 SYSROOT="$BUILD/sysroot"
 SRC="$WS/llvm"
-OUT="$BUILD/llvm"
+OUT_NATIVE="$BUILD/llvm-native"
+OUT_CROSS="$BUILD/llvm"
 
 silent mkdir -p "$BUILD"
 silent mkdir -p "$SYSROOT"
 
-silent rm -rf "$OUT"
-silent mkdir -p "$OUT"
-cd "$OUT"
+silent rm -rf "$OUT_NATIVE"
+silent mkdir -p "$OUT_NATIVE"
+cd "$OUT_NATIVE"
+
+[ $? -eq 0 ] && cmake -G Ninja "$SRC" \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DLLVM_TARGETS_TO_BUILD=X86
+
+[ $? -eq 0 ] && ninja llvm-tblgen && ninja clang-tblgen
+
+if ! [ $? -eq 0 ]; then
+  exit 1
+fi
+
+silent rm -rf "$OUT_CROSS"
+silent mkdir -p "$OUT_CROSS"
+cd "$OUT_CROSS"
 
 FLAGS="-march=armv8-a -mcpu=cortex-a53 -mlittle-endian -mabi=lp64"
 [ $? -eq 0 ] && cmake -G Ninja "$SRC" \
@@ -31,8 +46,10 @@ FLAGS="-march=armv8-a -mcpu=cortex-a53 -mlittle-endian -mabi=lp64"
   -DCMAKE_CXX_COMPILER=/usr/bin/aarch64-linux-gnu-g++ \
   -DCMAKE_CXX_FLAGS="$FLAGS" \
   -DCMAKE_INSTALL_PREFIX="$SYSROOT" \
+  -DCLANG_TABLEGEN="$OUT_NATIVE/bin/clang-tblgen" \
   -DLLVM_DEFAULT_TARGET_TRIPLE=aarch64-poky-linux \
   -DLLVM_ENABLE_TERMINFO=False \
+  -DLLVM_TABLEGEN="$OUT_NATIVE/bin/llvm-tblgen" \
   -DLLVM_TARGET_ARCH=AArch64 \
   -DLLVM_TARGETS_TO_BUILD=AArch64
 
